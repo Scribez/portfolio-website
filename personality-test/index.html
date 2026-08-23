@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>Persönlichkeitsprofil · IPIP-50</title>
+  <style>
+    :root{--bg:#f5f7fb;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--accent:#111827;--soft:#eef2ff;--ok:#166534;--warn:#92400e}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:linear-gradient(180deg,#eef2ff 0,#f8fafc 28%,#f5f7fb 100%);color:var(--ink);min-height:100vh}
+    .wrap{width:min(760px,calc(100% - 28px));margin:0 auto;padding:28px 0 48px}.card{background:rgba(255,255,255,.96);border:1px solid rgba(229,231,235,.9);border-radius:24px;box-shadow:0 18px 55px rgba(15,23,42,.08);padding:28px}.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6366f1}.title{font-size:clamp(2rem,6vw,3.4rem);line-height:1.02;margin:10px 0 14px;letter-spacing:-.04em}.lead{font-size:1.05rem;line-height:1.65;color:#4b5563;margin:0 0 22px}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0}.pill{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fafafa}.pill b{display:block;font-size:1.05rem}.pill span{font-size:.78rem;color:var(--muted)}button{font:inherit}.primary,.secondary{border:0;border-radius:14px;padding:14px 18px;font-weight:800;cursor:pointer}.primary{background:var(--accent);color:#fff;width:100%}.secondary{background:#f3f4f6;color:#111827}.tiny{font-size:.82rem;color:var(--muted);line-height:1.55}.hidden{display:none!important}.toprow{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}.progress{height:8px;background:#e5e7eb;border-radius:999px;overflow:hidden}.progress>div{height:100%;background:#6366f1;width:0;transition:width .2s ease}.counter{font-size:.85rem;font-weight:700;color:var(--muted)}.question{font-size:clamp(1.55rem,5vw,2.2rem);line-height:1.25;letter-spacing:-.025em;margin:30px 0}.choices{display:grid;gap:10px}.choice{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--line);background:#fff;padding:14px;border-radius:15px;text-align:left;cursor:pointer;transition:.15s}.choice:hover{border-color:#a5b4fc;background:#f8faff;transform:translateY(-1px)}.num{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#f3f4f6;font-weight:900;flex:0 0 auto}.choice.selected{border-color:#6366f1;background:#eef2ff}.choice.selected .num{background:#6366f1;color:#fff}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:18px}.nav .primary{width:auto;flex:1}.results-grid{display:grid;gap:12px;margin:22px 0}.trait{border:1px solid var(--line);border-radius:18px;padding:16px}.trait-head{display:flex;justify-content:space-between;gap:12px;align-items:baseline}.trait h3{margin:0;font-size:1rem}.score{font-weight:900;font-size:1.15rem}.bar{height:9px;border-radius:999px;background:#e5e7eb;overflow:hidden;margin:10px 0 8px}.bar div{height:100%;background:#6366f1}.desc{font-size:.88rem;line-height:1.55;color:var(--muted);margin:0}.jsonbox{width:100%;min-height:310px;border:1px solid var(--line);border-radius:16px;background:#0f172a;color:#e2e8f0;padding:14px;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.note{border-radius:16px;padding:14px 16px;margin:16px 0;background:#fffbeb;color:#78350f;font-size:.9rem;line-height:1.55}.privacy{background:#f0fdf4;color:#14532d}.sources{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}.sources a{color:#4338ca}.footer{font-size:.78rem;color:var(--muted);text-align:center;margin-top:16px}@media(max-width:580px){.card{padding:20px;border-radius:20px}.meta{grid-template-columns:1fr}.actions{grid-template-columns:1fr}.wrap{width:min(100% - 18px,760px);padding-top:12px}.choice{padding:12px}.question{margin:24px 0}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="card" id="intro">
+    <div class="eyebrow">IPIP-50 · Big Five</div>
+    <h1 class="title">Wie beschreibst du dich?</h1>
+    <p class="lead">50 kurze Aussagen ergeben ein Profil über fünf breite Persönlichkeitsdimensionen. Antworte so, wie du <strong>typischerweise wirklich bist</strong> – nicht so, wie du gern wärst.</p>
+    <div class="meta">
+      <div class="pill"><b>50</b><span>Aussagen</span></div>
+      <div class="pill"><b>≈ 7–10 Min.</b><span>Bearbeitungszeit</span></div>
+      <div class="pill"><b>5</b><span>Persönlichkeitsdimensionen</span></div>
+    </div>
+    <div class="note privacy"><strong>Privat:</strong> Deine Antworten bleiben in diesem Browser. Es gibt kein Konto, keine Datenbank und keine Übertragung an einen Server.</div>
+    <button class="primary" id="startBtn">Test starten</button>
+    <p class="tiny">Dieses Instrument dient der Selbstreflexion und ist keine medizinische oder psychologische Diagnose. Die Auswertung verwendet die standardmäßige IPIP-Vorwärts-/Rückwärtswertung.</p>
+  </section>
+
+  <section class="card hidden" id="quiz">
+    <div class="toprow"><span class="counter" id="counter"></span><button class="secondary" id="saveExit">Später fortsetzen</button></div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <h2 class="question" id="questionText"></h2>
+    <div class="choices" id="choices"></div>
+    <div class="nav"><button class="secondary" id="backBtn">← Zurück</button><button class="primary" id="nextBtn" disabled>Weiter →</button></div>
+    <p class="tiny" style="margin-top:16px">Tipp: Auf einer Tastatur kannst du auch 1–5 drücken.</p>
+  </section>
+
+  <section class="card hidden" id="results">
+    <div class="eyebrow">Dein Ergebnis</div>
+    <h1 class="title" style="font-size:clamp(1.8rem,5vw,2.8rem)">Big-Five-Profil</h1>
+    <p class="lead">Die Balken zeigen deine Position innerhalb des möglichen Skalenbereichs – <strong>keine Bevölkerungs-Perzentile</strong>. Schick mir anschließend das JSON; ich ordne das Profil im Chat vorsichtig und im Zusammenhang ein.</p>
+    <div class="results-grid" id="resultsGrid"></div>
+    <div class="note"><strong>Wichtig:</strong> Hohe oder niedrige Werte sind nicht automatisch „gut“ oder „schlecht“. Eigenschaften können je nach Situation Vor- und Nachteile haben.</div>
+    <h2>JSON für ChatGPT</h2>
+    <textarea class="jsonbox" id="jsonOutput" readonly></textarea>
+    <div class="actions"><button class="primary" id="copyBtn">JSON kopieren</button><button class="secondary" id="restartBtn">Neu starten</button></div>
+    <div class="sources">
+      <strong>Grundlage</strong>
+      <p class="tiny">IPIP 50-Item Lexical Big-Five Factor Markers, deutsche Übersetzung von Fritz Ostendorf. Die IPIP-Instrumente sind Public Domain. Verwendet wird die Standardwertung: positive Items 1→5, negativ gepolte Items 5→1, anschließend Summenbildung pro Skala.</p>
+      <p class="tiny"><a href="https://ipip.ori.org/German50-itemBigFiveFactorMarkers.htm" target="_blank" rel="noreferrer">Deutsche IPIP-50-Fassung</a> · <a href="https://ipip.ori.org/IPIPImplementationsAroundTheWeb.htm" target="_blank" rel="noreferrer">IPIP Hinweise zu Nutzung und Scoring</a></p>
+    </div>
+  </section>
+  <div class="footer">Persönlichkeitsprofil · lokal im Browser ausgewertet</div>
+</div>
+<script>
+const items = [
+[1,'E',false,'Bringe eine Party in Schwung.'],[2,'A',true,'Empfinde wenig für andere.'],[3,'C',false,'Bin immer vorbereitet.'],[4,'ES',true,'Gerate leicht in Stress.'],[5,'I',false,'Besitze einen großen Wortschatz.'],
+[6,'E',true,'Spreche nicht viel.'],[7,'A',false,'Bin interessiert an anderen Menschen.'],[8,'C',true,'Lasse meine Sachen herumliegen.'],[9,'ES',false,'Bin die meiste Zeit entspannt.'],[10,'I',true,'Habe Schwierigkeiten, abstrakte Ideen zu verstehen.'],
+[11,'E',false,'Fühle mich wohl unter Menschen.'],[12,'A',true,'Beleidige andere.'],[13,'C',false,'Achte auf Details.'],[14,'ES',true,'Grüble über Dinge.'],[15,'I',false,'Habe eine lebhafte Vorstellungskraft.'],
+[16,'E',true,'Halte mich im Hintergrund.'],[17,'A',false,'Fühle mit anderen Menschen mit.'],[18,'C',true,'Verursache großes Durcheinander.'],[19,'ES',false,'Fühle mich selten deprimiert oder bedrückt.'],[20,'I',true,'Bin an abstrakten Ideen nicht interessiert.'],
+[21,'E',false,'Beginne Gespräche.'],[22,'A',true,'Bin nicht interessiert an den Problemen anderer Leute.'],[23,'C',false,'Erledige Hausarbeiten unmittelbar.'],[24,'ES',true,'Bin leicht beunruhigt.'],[25,'I',false,'Habe ausgezeichnete Ideen.'],
+[26,'E',true,'Habe wenig zu sagen.'],[27,'A',false,'Habe ein weiches Herz.'],[28,'C',true,'Vergesse oft, Dinge an ihren Platz zurückzulegen.'],[29,'ES',true,'Rege mich leicht auf.'],[30,'I',true,'Habe kein gutes Vorstellungsvermögen.'],
+[31,'E',false,'Spreche mit vielen verschiedenen Leuten auf Partys.'],[32,'A',true,'Bin nicht wirklich interessiert an anderen.'],[33,'C',false,'Mag Ordnung.'],[34,'ES',true,'Wechsle oft meine Stimmung.'],[35,'I',false,'Verstehe Dinge schnell.'],
+[36,'E',true,'Mag es nicht, Aufmerksamkeit auf mich zu ziehen.'],[37,'A',false,'Nehme mir Zeit für andere.'],[38,'C',true,'Drücke mich vor meinen Pflichten.'],[39,'ES',true,'Habe häufig Stimmungsschwankungen.'],[40,'I',false,'Gebrauche schwierige Wörter.'],
+[41,'E',false,'Es macht mir nichts aus, im Zentrum der Aufmerksamkeit zu stehen.'],[42,'A',false,'Fühle die Gefühle anderer.'],[43,'C',false,'Folge einem Plan.'],[44,'ES',true,'Bin leicht gereizt.'],[45,'I',false,'Verbringe Zeit damit, über Dinge nachzudenken.'],
+[46,'E',true,'Bin still unter Fremden.'],[47,'A',false,'Kann andere beruhigen.'],[48,'C',false,'Bin anspruchsvoll in meiner Arbeit.'],[49,'ES',true,'Fühle mich oft deprimiert oder bedrückt.'],[50,'I',false,'Bin voller Ideen.']
+];
+const labels=['','Trifft gar nicht zu','Trifft eher nicht zu','Teils / teils','Trifft eher zu','Trifft völlig zu'];
+const names={E:'Extraversion',A:'Verträglichkeit',C:'Gewissenhaftigkeit',ES:'Emotionale Stabilität',I:'Intellekt / Vorstellungskraft'};
+const descriptions={
+E:['eher zurückhaltend, ruhig und selektiv sozial','situationsabhängig zwischen Rückzug und Geselligkeit','eher kontaktfreudig, aktiv und sozial selbstsicher'],
+A:['eher direkt, skeptisch und konkurrenzorientiert','situationsabhängig zwischen Entgegenkommen und Abgrenzung','eher mitfühlend, kooperativ und auf andere bezogen'],
+C:['eher flexibel, spontan und weniger strukturgebunden','situationsabhängig zwischen Struktur und Spontaneität','eher organisiert, pflichtbewusst und planorientiert'],
+ES:['eher empfindlich gegenüber Stress und negativen Emotionen','mittlere emotionale Reaktivität','eher ruhig, belastbar und emotional stabil'],
+I:['eher konkret, pragmatisch und wenig abstraktionsorientiert','mittlere Neigung zu Abstraktion, Ideen und Vorstellung','eher ideenreich, reflektierend, abstrakt und vorstellungsstark']
+};
+let answers = Array(50).fill(null); let current=0;
+const $=id=>document.getElementById(id);
+function load(){try{const s=JSON.parse(localStorage.getItem('ipip50-progress'));if(s&&Array.isArray(s.answers)&&s.answers.length===50){answers=s.answers;current=Math.min(s.current||0,49);return true}}catch(e){}return false}
+function save(){localStorage.setItem('ipip50-progress',JSON.stringify({answers,current}))}
+function show(id){['intro','quiz','results'].forEach(x=>$(x).classList.toggle('hidden',x!==id))}
+function render(){const it=items[current];$('counter').textContent=`Aussage ${current+1} von 50`;$('progressBar').style.width=`${((current+1)/50)*100}%`;$('questionText').textContent=it[3];$('choices').innerHTML='';for(let v=1;v<=5;v++){const b=document.createElement('button');b.className='choice'+(answers[current]===v?' selected':'');b.innerHTML=`<span class="num">${v}</span><span>${labels[v]}</span>`;b.onclick=()=>{answers[current]=v;save();render();};$('choices').appendChild(b)}$('backBtn').disabled=current===0;$('nextBtn').disabled=answers[current]==null;$('nextBtn').textContent=current===49?'Auswerten →':'Weiter →'}
+function start(){const resumed=load();show('quiz');if(!resumed){answers=Array(50).fill(null);current=0}render()}
+function next(){if(answers[current]==null)return;if(current<49){current++;save();render()}else finish()}
+function calc(){const sums={E:0,A:0,C:0,ES:0,I:0};items.forEach((it,idx)=>{const raw=answers[idx];const scored=it[2]?(6-raw):raw;sums[it[1]]+=scored});const scores={};Object.keys(sums).forEach(k=>{const raw=sums[k],mean=raw/10,percent=((raw-10)/40)*100;const band=mean<2.67?0:mean>3.33?2:1;scores[k]={name:names[k],raw_score:raw,possible_range:[10,50],mean_item_score:+mean.toFixed(2),scale_position_percent:+percent.toFixed(1),interpretive_band:['niedriger','mittlerer','höherer'][band],plain_language:descriptions[k][band]}});return scores}
+function finish(){save();const scores=calc();$('resultsGrid').innerHTML='';Object.entries(scores).forEach(([k,s])=>{const d=document.createElement('div');d.className='trait';d.innerHTML=`<div class="trait-head"><h3>${s.name}</h3><span class="score">${s.raw_score}/50</span></div><div class="bar"><div style="width:${s.scale_position_percent}%"></div></div><p class="desc">${s.interpretive_band.charAt(0).toUpperCase()+s.interpretive_band.slice(1)}e Ausprägung im möglichen Antwortbereich · ${s.plain_language}.</p>`;$('resultsGrid').appendChild(d)});
+const output={instrument:'IPIP-50 Big-Five Factor Markers',language:'de',translation:'Fritz Ostendorf (German IPIP translation)',scoring:'Standard IPIP scoring: + keyed 1–5, - keyed reverse-coded 5–1; 10 items summed per scale',note:'Scale-position percentages are positions within the theoretical 10–50 range, not population percentiles.',completed_at:new Date().toISOString(),scores:{extraversion:scores.E,agreeableness:scores.A,conscientiousness:scores.C,emotional_stability:scores.ES,intellect_imagination:scores.I},responses:answers.map((v,i)=>({item:i+1,response:v}))};$('jsonOutput').value=JSON.stringify(output,null,2);show('results');window.scrollTo({top:0,behavior:'smooth'})}
+$('startBtn').onclick=start;$('nextBtn').onclick=next;$('backBtn').onclick=()=>{if(current>0){current--;save();render()}};$('saveExit').onclick=()=>{save();show('intro');$('startBtn').textContent='Test fortsetzen'};$('copyBtn').onclick=async()=>{await navigator.clipboard.writeText($('jsonOutput').value);$('copyBtn').textContent='Kopiert ✓';setTimeout(()=>$('copyBtn').textContent='JSON kopieren',1500)};$('restartBtn').onclick=()=>{localStorage.removeItem('ipip50-progress');answers=Array(50).fill(null);current=0;$('startBtn').textContent='Test starten';show('intro')};
+document.addEventListener('keydown',e=>{if(!$('quiz').classList.contains('hidden')&&['1','2','3','4','5'].includes(e.key)){answers[current]=Number(e.key);save();render()}else if(!$('quiz').classList.contains('hidden')&&e.key==='Enter'&&answers[current]!=null)next()});
+if(load())$('startBtn').textContent='Test fortsetzen';
+</script>
+</body>
+</html>
