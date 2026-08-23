@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kognitives Screening</title>
+<style>
+:root{--bg:#0b1020;--card:#151c33;--text:#eef2ff;--muted:#aab3cf;--accent:#7c9cff;--good:#52d273;--bad:#ff7b7b;--line:#2a355a}
+*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#0a0f1e,#11162a);color:var(--text);min-height:100vh}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 48px}.card{background:rgba(21,28,51,.96);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+h1{font-size:clamp(28px,6vw,46px);margin:0 0 10px}.lead{color:var(--muted);line-height:1.6}.pill{display:inline-flex;gap:8px;align-items:center;background:#202949;border:1px solid #33406e;border-radius:999px;padding:8px 12px;color:#dbe3ff;font-size:14px;margin:4px 4px 4px 0}
+button{border:0;border-radius:12px;padding:14px 18px;font-weight:700;font-size:16px;cursor:pointer}.primary{background:var(--accent);color:#071126;width:100%}.secondary{background:#232d4e;color:var(--text)}
+.progress{height:9px;background:#202949;border-radius:99px;overflow:hidden;margin:16px 0}.bar{height:100%;background:var(--accent);width:0;transition:.25s}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;gap:12px}.question{font-size:24px;line-height:1.35;margin:22px 0}.stimulus{font-size:30px;line-height:1.5;text-align:center;padding:18px;background:#0f1529;border:1px solid var(--line);border-radius:14px;margin:12px 0 20px;white-space:pre-wrap;letter-spacing:.04em}
+.options{display:grid;gap:10px}.opt{width:100%;text-align:left;background:#202949;color:var(--text);border:1px solid #34416d}.opt:hover{border-color:#6f8fff}.opt.selected{background:#2c3965;border-color:#89a3ff}.footer{display:flex;gap:10px;margin-top:18px}.footer button{flex:1}
+.hidden{display:none!important}.domain{color:#9eb0ff;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.08em}.notice{font-size:14px;color:var(--muted);line-height:1.55;background:#10172c;border:1px solid var(--line);padding:14px;border-radius:12px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.score{background:#10172c;border:1px solid var(--line);border-radius:14px;padding:14px}.score strong{font-size:26px}.mini{font-size:13px;color:var(--muted)} pre{white-space:pre-wrap;word-break:break-word;background:#0c1225;border:1px solid var(--line);padding:14px;border-radius:12px;max-height:320px;overflow:auto}.memoryFlash{font-size:42px;font-weight:800;letter-spacing:.12em;text-align:center;padding:28px 8px}
+.cube{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:24px;line-height:1.25;white-space:pre}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.question{font-size:21px}.card{padding:18px}.stimulus{font-size:26px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="intro" class="card">
+    <div class="pill">🧠 Kognitives Screening</div><div class="pill">28 Aufgaben</div><div class="pill">ca. 15–25 Min.</div>
+    <h1>Wie denkst du?</h1>
+    <p class="lead">Dieser Test prüft mehrere Bereiche: numerisches Schlussfolgern, verbale Logik, Mustererkennung, räumliche Orientierung und Arbeitsgedächtnis. Die Aufgaben sind eigenständig erstellt und orientieren sich an etablierten kognitiven Testformaten.</p>
+    <div class="notice"><b>Wichtig:</b> Das ist kein klinisch normierter IQ-Test und liefert daher keinen seriösen IQ-Wert wie 117 oder 132. Er ist als kognitives Screening gedacht. Für einen belastbaren IQ-Wert braucht man einen standardisierten, altersnormierten Test unter kontrollierten Bedingungen.</div>
+    <p class="lead">Regeln: keine Suchmaschine, kein Taschenrechner, kein Notizzettel. Nimm dir Zeit, aber grüble nicht ewig. Antwortzeiten werden mitgespeichert.</p>
+    <button class="primary" id="startBtn">Test starten</button>
+  </section>
+
+  <section id="test" class="card hidden">
+    <div class="meta"><span id="counter"></span><span id="timer"></span></div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+    <div class="domain" id="domain"></div>
+    <div id="memoryBox" class="memoryFlash hidden"></div>
+    <div id="questionBox">
+      <div class="question" id="prompt"></div>
+      <div class="stimulus hidden" id="stimulus"></div>
+      <div class="options" id="options"></div>
+      <div class="footer"><button class="secondary" id="backBtn">Zurück</button><button class="primary" id="nextBtn">Weiter</button></div>
+    </div>
+  </section>
+
+  <section id="result" class="card hidden">
+    <div class="pill">✅ Fertig</div>
+    <h1>Dein kognitives Profil</h1>
+    <p class="lead" id="summary"></p>
+    <div class="grid" id="scores"></div>
+    <div class="notice">Die Prozentwerte zeigen nur deinen Anteil korrekt gelöster Aufgaben in diesem Test. Sie sind <b>keine Bevölkerungsperzentile</b>. Besonders bei nur wenigen Aufgaben pro Bereich sollte man Unterschiede nicht überinterpretieren.</div>
+    <h3>JSON für ChatGPT</h3>
+    <pre id="jsonOut"></pre>
+    <button class="primary" id="copyBtn">JSON kopieren</button>
+    <button class="secondary" style="width:100%;margin-top:10px" onclick="location.reload()">Neu starten</button>
+  </section>
+</div>
+<script>
+const qs=[
+{id:1,d:'Numerisches Denken',p:'Welche Zahl setzt die Reihe fort?',s:'2, 5, 10, 17, 26, ?',o:['35','36','37','38'],a:2},
+{id:2,d:'Numerisches Denken',p:'Welche Zahl setzt die Reihe fort?',s:'81, 27, 9, 3, ?',o:['0','1','1,5','2'],a:1},
+{id:3,d:'Numerisches Denken',p:'Welche Zahl setzt die Reihe fort?',s:'3, 6, 18, 72, 360, ?',o:['1080','1800','2160','2520'],a:2},
+{id:4,d:'Numerisches Denken',p:'Welche Zahl setzt die Reihe fort?',s:'7, 10, 16, 28, 52, ?',o:['76','88','100','104'],a:2},
+{id:5,d:'Numerisches Denken',p:'Welche Zahl setzt die Reihe fort?',s:'1, 4, 10, 22, 46, ?',o:['82','92','94','96'],a:2},
+{id:6,d:'Numerisches Denken',p:'Ein Gerät kostet nach 20 % Rabatt 240 €. Wie hoch war der ursprüngliche Preis?',o:['280 €','288 €','300 €','320 €'],a:2},
+{id:7,d:'Verbale Logik',p:'Alle Lumen sind Fera. Kein Fera ist ein Tor. Welche Aussage folgt zwingend?',o:['Kein Lumen ist ein Tor.','Alle Tore sind Lumen.','Einige Lumen sind Tore.','Man kann nichts folgern.'],a:0},
+{id:8,d:'Verbale Logik',p:'Einige Ärztinnen sind Musikerinnen. Alle Musikerinnen sind kreativ. Was folgt zwingend?',o:['Alle Ärztinnen sind kreativ.','Einige Ärztinnen sind kreativ.','Keine Ärztin ist kreativ.','Alle Kreativen sind Musikerinnen.'],a:1},
+{id:9,d:'Verbale Logik',p:'Mikroskop verhält sich zu „klein“ wie Teleskop zu …',o:['nah','fern','laut','schnell'],a:1},
+{id:10,d:'Verbale Logik',p:'Gestern war zwei Tage vor Freitag. Welcher Tag ist heute?',o:['Mittwoch','Donnerstag','Freitag','Samstag'],a:1},
+{id:11,d:'Verbale Logik',p:'Kein B ist C. Einige A sind B. Welche Aussage folgt zwingend?',o:['Einige A sind nicht C.','Alle A sind C.','Kein A ist C.','Einige C sind B.'],a:0},
+{id:12,d:'Verbale Logik',p:'ARCHITEKT : GEBÄUDE entspricht am besten …',o:['Autor : Buch','Arzt : Patient','Fahrer : Straße','Lehrer : Schule'],a:0},
+{id:13,d:'Mustererkennung',p:'Welches Zeichen setzt die Folge fort?',s:'↑   →   ↓   ←   ↑   ?',o:['↑','→','↓','←'],a:1},
+{id:14,d:'Mustererkennung',p:'Welches Zeichen setzt die Folge fort?',s:'○   ●   ○   ●   ○   ?',o:['○','●','■','△'],a:1},
+{id:15,d:'Mustererkennung',p:'Welcher Buchstabe folgt?',s:'A, C, F, J, O, ?',o:['T','U','V','W'],a:1},
+{id:16,d:'Mustererkennung',p:'Welcher Eintrag fehlt in der Matrix?',s:'A   B   C\nB   C   A\nC   A   ?',o:['A','B','C','D'],a:1},
+{id:17,d:'Mustererkennung',p:'Welcher Eintrag fehlt in der Matrix?',s:'△   ○   □\n○   □   △\n□   △   ?',o:['△','○','□','◇'],a:1},
+{id:18,d:'Mustererkennung',p:'Welche Zahl passt?',s:'2 → 6\n3 → 12\n4 → 20\n5 → ?',o:['25','28','30','35'],a:2},
+{id:19,d:'Räumliches Denken',p:'Das ist ein Würfelnetz. Welche Fläche liegt C gegenüber?',s:'    A\nB   C   D   E\n    F',o:['A','B','D','E'],a:3},
+{id:20,d:'Räumliches Denken',p:'Beim selben Würfelnetz: Welche Fläche liegt A gegenüber?',s:'    A\nB   C   D   E\n    F',o:['B','D','E','F'],a:3},
+{id:21,d:'Räumliches Denken',p:'Beim selben Würfelnetz: Welche Fläche liegt B gegenüber?',s:'    A\nB   C   D   E\n    F',o:['A','C','D','F'],a:2},
+{id:22,d:'Räumliches Denken',p:'Ein Pfeil ↗ wird um 90° im Uhrzeigersinn gedreht. Wohin zeigt er danach?',o:['↖','↘','↙','↑'],a:1},
+{id:23,d:'Räumliches Denken',p:'Welche Form entsteht, wenn „└“ um 180° gedreht wird?',o:['┌','┐','┘','└'],a:1},
+{id:24,d:'Räumliches Denken',p:'Du blickst nach Norden. Du drehst dich rechts, dann nochmals rechts, dann links. Wohin blickst du?',o:['Norden','Osten','Süden','Westen'],a:1},
+{id:25,d:'Arbeitsgedächtnis',memory:'7  2  9  4  1',p:'Welche Folge ist exakt rückwärts?',o:['1 4 9 2 7','1 4 2 9 7','7 2 9 4 1','1 9 4 2 7'],a:0},
+{id:26,d:'Arbeitsgedächtnis',memory:'8  3  1  6  9  2',p:'Welche Folge ist exakt rückwärts?',o:['2 9 6 1 3 8','2 9 6 3 1 8','2 6 9 1 3 8','8 3 1 6 9 2'],a:0},
+{id:27,d:'Arbeitsgedächtnis',memory:'K  R  T  M  Q',p:'Welche Folge ist exakt rückwärts?',o:['Q M T R K','Q T M R K','K R T M Q','Q M R T K'],a:0},
+{id:28,d:'Arbeitsgedächtnis',memory:'4  B  7  D  2',p:'Welche Folge ist exakt rückwärts?',o:['2 D 7 B 4','2 B 7 D 4','4 B 7 D 2','D 2 7 B 4'],a:0}
+];
+let i=0, answers=Array(qs.length).fill(null), timings=Array(qs.length).fill(0), started=0, itemStart=0, memoryShown={};
+const intro=document.getElementById('intro'),test=document.getElementById('test'),result=document.getElementById('result');
+const counter=document.getElementById('counter'),timer=document.getElementById('timer'),bar=document.getElementById('bar'),domain=document.getElementById('domain'),prompt=document.getElementById('prompt'),stimulus=document.getElementById('stimulus'),options=document.getElementById('options'),memoryBox=document.getElementById('memoryBox'),questionBox=document.getElementById('questionBox');
+function fmt(ms){let s=Math.floor(ms/1000),m=Math.floor(s/60);return `${m}:${String(s%60).padStart(2,'0')}`}
+setInterval(()=>{if(started&&!result.classList.contains('hidden'))timer.textContent='Zeit '+fmt(Date.now()-started)},500);
+function render(){const q=qs[i];counter.textContent=`Aufgabe ${i+1} / ${qs.length}`;bar.style.width=((i)/qs.length*100)+'%';domain.textContent=q.d;prompt.textContent=q.p;stimulus.classList.toggle('hidden',!q.s);stimulus.textContent=q.s||'';options.innerHTML='';q.o.forEach((x,idx)=>{const b=document.createElement('button');b.className='opt'+(answers[i]===idx?' selected':'');b.textContent=x;b.onclick=()=>{answers[i]=idx;renderOptionsOnly()};options.appendChild(b)});document.getElementById('backBtn').disabled=i===0;document.getElementById('nextBtn').textContent=i===qs.length-1?'Auswerten':'Weiter';itemStart=Date.now();if(q.memory&&!memoryShown[q.id]){memoryShown[q.id]=true;questionBox.classList.add('hidden');memoryBox.classList.remove('hidden');memoryBox.textContent=q.memory;setTimeout(()=>{memoryBox.classList.add('hidden');questionBox.classList.remove('hidden');itemStart=Date.now()},3200)}else{memoryBox.classList.add('hidden');questionBox.classList.remove('hidden')}}
+function renderOptionsOnly(){[...options.children].forEach((b,idx)=>b.classList.toggle('selected',answers[i]===idx))}
+document.getElementById('startBtn').onclick=()=>{intro.classList.add('hidden');test.classList.remove('hidden');started=Date.now();render()};
+document.getElementById('backBtn').onclick=()=>{timings[i]+=Date.now()-itemStart;if(i>0){i--;render()}};
+document.getElementById('nextBtn').onclick=()=>{if(answers[i]===null){alert('Bitte wähle eine Antwort.');return}timings[i]+=Date.now()-itemStart;if(i<qs.length-1){i++;render()}else finish()};
+function finish(){test.classList.add('hidden');result.classList.remove('hidden');bar.style.width='100%';const domains={};qs.forEach((q,idx)=>{if(!domains[q.d])domains[q.d]={correct:0,total:0,time_ms:0};domains[q.d].total++;domains[q.d].time_ms+=timings[idx];if(answers[idx]===q.a)domains[q.d].correct++});const totalCorrect=qs.reduce((n,q,idx)=>n+(answers[idx]===q.a?1:0),0);const pct=Math.round(totalCorrect/qs.length*100);document.getElementById('summary').textContent=`Du hast ${totalCorrect} von ${qs.length} Aufgaben korrekt gelöst (${pct} %). Entscheidend ist weniger die Gesamtzahl als das Muster über die einzelnen Bereiche.`;const scoreBox=document.getElementById('scores');scoreBox.innerHTML='';Object.entries(domains).forEach(([name,v])=>{const p=Math.round(v.correct/v.total*100),sec=Math.round(v.time_ms/1000);const div=document.createElement('div');div.className='score';div.innerHTML=`<div class="mini">${name}</div><strong>${p} %</strong><div class="mini">${v.correct}/${v.total} richtig · ${sec}s</div>`;scoreBox.appendChild(div)});const payload={instrument:'Experimental Cognitive Screening v1',language:'de',status:'not clinically normed; not an IQ score',basis:'Original items modeled on common cognitive-ability task formats; inspired by public-domain cognitive assessment research such as ICAR',completed_at:new Date().toISOString(),total:{correct:totalCorrect,total:qs.length,accuracy_percent:pct,total_time_seconds:Math.round((Date.now()-started)/1000)},domains:Object.fromEntries(Object.entries(domains).map(([k,v])=>[k,{correct:v.correct,total:v.total,accuracy_percent:Math.round(v.correct/v.total*100),time_seconds:Math.round(v.time_ms/1000)}])),responses:qs.map((q,idx)=>({item:q.id,domain:q.d,response_index:answers[idx],correct:answers[idx]===q.a,time_ms:timings[idx]}))};const json=JSON.stringify(payload,null,2);document.getElementById('jsonOut').textContent=json;document.getElementById('copyBtn').onclick=async()=>{await navigator.clipboard.writeText(json);document.getElementById('copyBtn').textContent='Kopiert ✓'}}
+</script>
+</body>
+</html>
